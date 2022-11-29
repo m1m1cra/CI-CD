@@ -1,0 +1,137 @@
+---
+- name: Install Nginx
+  hosts: lighthouse
+  handlers:
+    - name: start-nginx
+      become: true
+      command: nginx
+    - name: reload-nginx
+      become: true
+      command: nginx -s reload
+  tasks:
+    - name: NGINX | Install epel-release
+      become: true
+      yum:
+        name: epel-release
+        state: present
+    - name: NGINX | Install NGINX
+      become: true
+      yum:
+        name: nginx
+        state: present
+      notify: start-nginx
+    - name: NGINX | Create general config
+      become: true
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        mode: 0644
+      notify: reload-nginx
+- name: Install Lighthouse
+  hosts: lighthouse
+  handlers:
+    - name: reload-nginx
+      become: true
+      command: nginx -s reload
+  pre_tasks:
+    - name: Lighthouse | install dependencies
+      become: true
+      yum:
+        name: git
+        state: present
+  tasks:
+    - name: Lighthouse | Copy from git
+      git:
+        repo: "{{ lighthouse_vcs }}"
+        version: master
+        dest: "{{ lighthouse_location_dir }}"
+    - name: lightouse | Create lighthouse config
+      become: true
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        mode: 0644
+        notify: reload-nginx
+- name: Install Clickhouse
+  force_handlers: true
+  hosts: clickhouse
+  handlers:
+    - name: Start_clickhouse_svc
+      become: true
+      ansible.builtin.service:
+        name: clickhouse-server
+        state: restarted
+  tasks:
+    - block:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/deb/pool/main/c/{{ item }}/{{ item }}_{{ clickhouse_version }}_all.deb"
+            dest: "/tmp/{{ item }}_{{ clickhouse_version }}_all_deb"
+          with_items: "{{ clickhouse_packages }}"
+      rescue:
+        - name: Try to get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/deb/pool/main/c/clickhouse-common-static/clickhouse-common-static_{{ clickhouse_version }}_amd64.deb"
+            dest: "/tmp/clickhouse-common-static_{{ clickhouse_version }}_amd64.deb"
+    - name: Install clickhouse packages
+      become: true
+      apt:
+        deb: "{{ item }}"
+      with_items:
+        - /tmp/clickhouse-common-static_{{ clickhouse_version }}_amd64.deb
+        - /tmp/clickhouse-client_{{ clickhouse_version }}_all_deb
+        - /tmp/clickhouse-server_{{ clickhouse_version }}_all_deb
+      notify: Start_clickhouse_svc
+    - name: Create database
+      ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
+      register: create_db
+      failed_when: create_db.rc != 0 and create_db.rc !=82
+      changed_when: create_db.rc == 0
+- name: Install Vector
+  hosts: vector-01
+  handlers:
+    - name: Restart vector service
+      become: true
+      become_method: su
+      ansible.builtin.service:
+        name: vector
+        state: restarted
+  tasks:
+    - name: Get vector src
+      ansible.builtin.get_url:
+        url: "https://packages.timber.io/vector/0.25.1/vector-{{ vector_version_tar }}-x86_64-unknown-linux-gnu.tar.gz"
+        dest: "/tmp/vector-{{ vector_version_tar }}.tar.gz"
+      tags:
+        - Get vector
+    - name: unarchive vector src
+      ansible.builtin.unarchive:
+        src: /tmp/vector-{{ vector_version_tar }}.tar.gz
+        dest: /tmp/
+        remote_src: true
+    - name: copy vector to bin
+      become: true
+      ansible.builtin.copy:
+        src: /tmp/vector-x86_64-unknown-linux-gnu/bin/vector
+        dest: /bin/vector
+        remote_src: true
+        mode: 0755
+    - name: create vector dir
+      become: true
+      ansible.builtin.file:
+        path: /etc/vector
+        state: directory
+        mode: 0644
+    - name: copy vector_cfg from local to remote_src
+      become: true
+      template:
+        src: vector.toml.j2
+        dest: /etc/vector/vector.toml
+        mode: 0644
+    - name: install as a service and restart
+      become: true
+      ansible.builtin.copy:
+        src: /tmp/vector-x86_64-unknown-linux-gnu/etc/systemd/vector.service
+        dest: /etc/systemd/system
+        remote_src: true
+        mode: 0644
+      notify: Restart vector service
