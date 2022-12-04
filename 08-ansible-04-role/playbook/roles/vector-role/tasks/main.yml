@@ -1,0 +1,39 @@
+---
+- name: Get vector src
+  ansible.builtin.get_url:
+    url: "https://packages.timber.io/vector/0.25.1/vector-{{ vector_version_tar }}-x86_64-unknown-linux-gnu.tar.gz"
+    dest: "/tmp/vector-{{ vector_version_tar }}.tar.gz"
+  tags:
+    - Get vector
+- name: unarchive vector src
+  ansible.builtin.unarchive:
+    src: /tmp/vector-{{ vector_version_tar }}.tar.gz
+    dest: /tmp/
+    remote_src: true
+- name: copy vector to bin
+  become: true
+  ansible.builtin.copy:
+    src: /tmp/vector-x86_64-unknown-linux-gnu/bin/vector
+    dest: /bin/vector
+    remote_src: true
+    mode: 0755
+- name: create vector dir
+  become: true
+  ansible.builtin.file:
+    path: /etc/vector
+    state: directory
+    mode: 0644
+- name: copy vector_cfg from local to remote_src
+  become: true
+  template:
+    src: vector.toml.j2
+    dest: /etc/vector/vector.toml
+    mode: 0644
+- name: install as a service and restart
+  become: true
+  ansible.builtin.copy:
+    src: /tmp/vector-x86_64-unknown-linux-gnu/etc/systemd/vector.service
+    dest: /etc/systemd/system
+    remote_src: true
+    mode: 0644
+  notify: Restart vector service

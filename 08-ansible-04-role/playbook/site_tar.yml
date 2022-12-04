@@ -1,0 +1,34 @@
+---
+- name: Install Lighthouse
+  hosts: lighthouse-01
+  handlers: 
+    - name: start-nginx
+      become: true
+      command: nginx
+  pre_tasks:
+    - name: Lighthouse | install dependencies
+      become: true
+      yum:
+        name: git
+        state: present
+    - name: NGINX | Install epel-release
+      become: true
+      yum:
+        name: epel-release
+        state: present
+    - name: NGINX | Install NGINX
+      become: true
+      yum:
+        name: nginx
+        state: present
+      notify: start-nginx
+  roles:
+    - lighthouse-role
+- name: Install Clickhouse
+  hosts: clickhouse-01
+  roles:
+    - clickhouse
+- name: Install Vector
+  hosts: vector-01
+  roles:
+    - vector-role
