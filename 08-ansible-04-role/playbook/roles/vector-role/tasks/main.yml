@@ -12,6 +12,7 @@
     remote_src: true
 - name: copy vector to bin
   become: true
+  become_method: su
   ansible.builtin.copy:
     src: /tmp/vector-x86_64-unknown-linux-gnu/bin/vector
     dest: /bin/vector
@@ -19,18 +20,21 @@
     mode: 0755
 - name: create vector dir
   become: true
+  become_method: su
   ansible.builtin.file:
     path: /etc/vector
     state: directory
     mode: 0644
 - name: copy vector_cfg from local to remote_src
   become: true
+  become_method: su
   template:
     src: vector.toml.j2
     dest: /etc/vector/vector.toml
     mode: 0644
 - name: install as a service and restart
   become: true
+  become_method: su
   ansible.builtin.copy:
     src: /tmp/vector-x86_64-unknown-linux-gnu/etc/systemd/vector.service
     dest: /etc/systemd/system
