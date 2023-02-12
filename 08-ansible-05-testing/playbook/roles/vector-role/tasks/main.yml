@@ -1,11 +1,13 @@
 ---
 - name: Get vector src
+  become: true
   ansible.builtin.get_url:
     url: "https://packages.timber.io/vector/0.25.1/vector-{{ vector_version_tar }}-x86_64-unknown-linux-gnu.tar.gz"
     dest: "/tmp/vector-{{ vector_version_tar }}.tar.gz"
   tags:
     - Get vector
 - name: unarchive vector src
+  become: true
   ansible.builtin.unarchive:
     src: /tmp/vector-{{ vector_version_tar }}.tar.gz
     dest: /tmp/
@@ -32,6 +34,7 @@
     state: directory
     mode: 0644
 - name: copy vector_cfg from local to remote_src
+  become: true
   ansible.builtin.template:
     src: vector.j2
     dest: /etc/vector/vector.toml
@@ -39,7 +42,6 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_gid }}"
     validate: vector validate --no-environment --config-yaml %s
-  become: true
 - name: install as a service and start
   become: true
   template:
