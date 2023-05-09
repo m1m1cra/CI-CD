@@ -5722,6 +5722,83 @@ Finished: SUCCESS
 }
 ```
    
+ <details>
+    
+<summary>prod_run == true</summary>
+  
+  ```bash
+   Started by user Alexey Avdeev
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on jenkins-agent-01 in /opt/jenkins_agent/workspace/scripted_pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Git checkout)
+[Pipeline] git
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential 6707fa7d-edcd-425e-8a88-d3e03910ba79
+Fetching changes from the remote Git repository
+ > git rev-parse --resolve-git-dir /opt/jenkins_agent/workspace/scripted_pipeline/.git # timeout=10
+ > git config remote.origin.url git@github.com:m1m1cra/CI-CD.git # timeout=10
+Fetching upstream changes from git@github.com:m1m1cra/CI-CD.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.1'
+using GIT_SSH to set credentials 
+[INFO] Currently running in a labeled security context
+[INFO] Currently SELinux is 'enforcing' on the host
+ > /usr/bin/chcon --type=ssh_home_t /opt/jenkins_agent/workspace/scripted_pipeline@tmp/jenkins-gitclient-ssh14028188396335933474.key
+ > git fetch --tags --force --progress -- git@github.com:m1m1cra/CI-CD.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision 21f35af27543d33b0b327b829be7bfec8cd7c4c1 (refs/remotes/origin/MNT-video)
+Commit message: "Update README.md"
+ > git rev-parse refs/remotes/origin/MNT-video^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 21f35af27543d33b0b327b829be7bfec8cd7c4c1 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D MNT-video # timeout=10
+ > git checkout -b MNT-video 21f35af27543d33b0b327b829be7bfec8cd7c4c1 # timeout=10
+ > git rev-list --no-walk d351b649729ea031090448d3b4d94fa0b8e252a8 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run playbook)
+[Pipeline] dir
+Running in /opt/jenkins_agent/workspace/scripted_pipeline/08-ansible-01-base/playbook
+[Pipeline] {
+[Pipeline] sh
++ ansible-playbook site.yml -i inventory/test.yml
+
+PLAY [Print os facts] **********************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [Print OS] ****************************************************************
+ok: [localhost] => {
+    "msg": "CentOS"
+}
+
+TASK [Print fact] **************************************************************
+ok: [localhost] => {
+    "msg": 12
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+   
+  ```
+   
+ </details>
+   
 8. Проверить работоспособность, исправить ошибки, исправленный Pipeline вложить в репозиторий в файл `ScriptedJenkinsfile`.
    
   [ScriptedJenkinsfile](https://github.com/m1m1cra/CI-CD/blob/MNT-video/09-ci-04-jenkins/ScriptedJenkinsfile)
