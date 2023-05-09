@@ -1,0 +1,6 @@
+projectKey=my_project
+serverUrl=http://51.250.12.92:9000
+serverVersion=9.1.0.47736
+dashboardUrl=http://51.250.12.92:9000/dashboard?id=my_project
+ceTaskId=AYaJqeC7QcWE4hKKbzp7
+ceTaskUrl=http://51.250.12.92:9000/api/ce/task?id=AYaJqeC7QcWE4hKKbzp7
