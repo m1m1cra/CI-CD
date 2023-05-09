@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Pull from SCM') {
+            steps {
+                git branch: 'MNT-video', credentialsId: '6707fa7d-edcd-425e-8a88-d3e03910ba79', url: 'git@github.com:m1m1cra/CI-CD.git'
+            }
+        }
+        stage('Install molecule') {
+            steps {
+                sh 'pip install molecule && pip install molecule_docker'
+            }
+        }
+        stage('Test by molecule') {
+            environment {
+                PATH = "/usr/local/bin:${env.PATH}"
+            }
+            steps {
+                dir('08-ansible-05-testing/playbook/roles/ansible-clickhouse') {
+                    sh 'molecule test -s centos_7'
+                }
+            }
+        }
+    }
+}
