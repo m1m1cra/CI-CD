@@ -5702,7 +5702,30 @@ Finished: SUCCESS
    
 6. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./pipeline).
 7. Внести необходимые изменения, чтобы Pipeline запускал `ansible-playbook` без флагов `--check --diff`, если не установлен параметр при запуске джобы (prod_run = True), по умолчанию параметр имеет значение False и запускает прогон с флагами `--check --diff`.
+   
+```groovy
+   node("linux") {
+    stage("Git checkout") {
+        git branch: 'MNT-video', credentialsId: '6707fa7d-edcd-425e-8a88-d3e03910ba79', url: 'git@github.com:m1m1cra/CI-CD.git'
+    }
+    
+    stage("Run playbook") {
+        def prodRunParam = "${prod_run}" ?: "false"
+        dir('08-ansible-01-base/playbook') {
+            if (prodRunParam == "true") {
+                sh 'ansible-playbook site.yml -i inventory/test.yml'
+            } else {
+                sh 'ansible-playbook site.yml -i inventory/test.yml --check --diff'
+            }
+        }
+    }
+}
+```
+   
 8. Проверить работоспособность, исправить ошибки, исправленный Pipeline вложить в репозиторий в файл `ScriptedJenkinsfile`.
+   
+  [ScriptedJenkinsfile](https://github.com/m1m1cra/CI-CD/blob/MNT-video/09-ci-04-jenkins/ScriptedJenkinsfile)
+   
 9. Отправить ссылку на репозиторий с ролью и Declarative Pipeline и Scripted Pipeline.
 
 ## Необязательная часть
