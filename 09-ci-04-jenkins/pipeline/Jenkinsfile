@@ -1,17 +1,16 @@
-node("linux"){
-    stage("Git checkout"){
-        git credentialsId: '5ac0095d-0185-431b-94da-09a0ad9b0e2c', url: 'git@github.com:aragastmatb/example-playbook.git'
+node("linux") {
+    stage("Git checkout") {
+        git branch: 'MNT-video', credentialsId: '6707fa7d-edcd-425e-8a88-d3e03910ba79', url: 'git@github.com:m1m1cra/CI-CD.git'
     }
-    stage("Sample define secret_check"){
-        secret_check=true
-    }
-    stage("Run playbook"){
-        if (secret_check){
-            sh 'ansible-playbook site.yml -i inventory/prod.yml'
+    
+    stage("Run playbook") {
+        def prodRunParam = "${prod_run}" ?: "false"
+        dir('08-ansible-01-base/playbook') {
+            if (prodRunParam == "true") {
+                sh 'ansible-playbook site.yml -i inventory/test.yml'
+            } else {
+                sh 'ansible-playbook site.yml -i inventory/test.yml --check --diff'
+            }
         }
-        else{
-            echo 'need more action'
-        }
-        
     }
 }
