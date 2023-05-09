@@ -2595,6 +2595,8 @@ Finished: SUCCESS
   
   <details>
     
+ ```groovy
+    
 Started by user Alexey Avdeev
 Obtained 08-ansible-05-testing/playbook/roles/ansible-clickhouse/Jenkinsfile from git git@github.com:m1m1cra/CI-CD.git
 [Pipeline] Start of Pipeline
@@ -4104,6 +4106,8 @@ INFO     Pruning extra files from scenario ephemeral directory
 [Pipeline] End of Pipeline
 Finished: SUCCESS
 
+```
+    
   </details>
   
 5. Создать Multibranch Pipeline на запуск `Jenkinsfile` из репозитория.
