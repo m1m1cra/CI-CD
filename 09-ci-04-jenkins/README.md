@@ -4111,6 +4111,61 @@ Finished: SUCCESS
   </details>
   
 5. Создать Multibranch Pipeline на запуск `Jenkinsfile` из репозитория.
+
+![screen](tmp/multibranch.png)
+    
+![screen](tmp/multibranch2.png)
+
+
+<details>
+      
+<summary>scan log</summary>
+  
+  ```bash
+  
+  Started by user Alexey Avdeev
+[Tue May 09 21:34:19 UTC 2023] Starting branch indexing...
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.1'
+using GIT_SSH to set credentials 
+[INFO] Currently running in a labeled security context
+[INFO] Currently SELinux is 'enforcing' on the host
+ > /usr/bin/chcon --type=ssh_home_t /tmp/jenkins-gitclient-ssh2536710985058952445.key
+ > git ls-remote --symref -- git@github.com:m1m1cra/CI-CD.git # timeout=10
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/caches/git-4b16c93a1f945b3817861bf727186434/.git # timeout=10
+Setting origin to git@github.com:m1m1cra/CI-CD.git
+ > git config remote.origin.url git@github.com:m1m1cra/CI-CD.git # timeout=10
+Fetching & pruning origin...
+Listing remote references...
+ > git config --get remote.origin.url # timeout=10
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.1'
+using GIT_SSH to set credentials 
+[INFO] Currently running in a labeled security context
+[INFO] Currently SELinux is 'enforcing' on the host
+ > /usr/bin/chcon --type=ssh_home_t /var/lib/jenkins/caches/git-4b16c93a1f945b3817861bf727186434@tmp/jenkins-gitclient-ssh15963201423177533316.key
+ > git ls-remote -h -- git@github.com:m1m1cra/CI-CD.git # timeout=10
+Fetching upstream changes from origin
+ > git config --get remote.origin.url # timeout=10
+using GIT_SSH to set credentials 
+[INFO] Currently running in a labeled security context
+[INFO] Currently SELinux is 'enforcing' on the host
+ > /usr/bin/chcon --type=ssh_home_t /var/lib/jenkins/caches/git-4b16c93a1f945b3817861bf727186434@tmp/jenkins-gitclient-ssh11620979880550241606.key
+ > git fetch --tags --force --progress --prune -- origin +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking branches...
+  Checking branch MNT-video
+      ‘08-ansible-05-testing/playbook/roles/ansible-clickhouse/Jenkinsfile’ found
+    Met criteria
+No changes detected: MNT-video (still at b9235a43431a69c33adc2ca78680765fc0cee6c7)
+Processed 1 branches
+[Tue May 09 21:34:24 UTC 2023] Finished branch indexing. Indexing took 4.7 sec
+Finished: SUCCESS
+  
+  ```
+
+</details> 
+  
+    
 6. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./pipeline).
 7. Внести необходимые изменения, чтобы Pipeline запускал `ansible-playbook` без флагов `--check --diff`, если не установлен параметр при запуске джобы (prod_run = True), по умолчанию параметр имеет значение False и запускает прогон с флагами `--check --diff`.
 8. Проверить работоспособность, исправить ошибки, исправленный Pipeline вложить в репозиторий в файл `ScriptedJenkinsfile`.
