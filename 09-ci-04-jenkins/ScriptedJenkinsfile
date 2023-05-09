@@ -1,0 +1,16 @@
+node("linux") {
+    stage("Git checkout") {
+        git branch: 'MNT-video', credentialsId: '6707fa7d-edcd-425e-8a88-d3e03910ba79', url: 'git@github.com:m1m1cra/CI-CD.git'
+    }
+    
+    stage("Run playbook") {
+        def prodRunParam = "${prod_run}" ?: "false"
+        dir('08-ansible-01-base/playbook') {
+            if (prodRunParam == "true") {
+                sh 'ansible-playbook site.yml -i inventory/test.yml'
+            } else {
+                sh 'ansible-playbook site.yml -i inventory/test.yml --check --diff'
+            }
+        }
+    }
+}
