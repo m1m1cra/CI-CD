@@ -923,11 +923,11 @@ TeamCity server version is 2022.10.3 (build 117072), server timezone: GMT (UTC)
 7. В pom.xml необходимо поменять ссылки на репозиторий и nexus
 8. Запустите сборку по master, убедитесь что всё прошло успешно, артефакт появился в nexus
 
-   <details>
+<details>
    
 <summary>Build log</summary>
-  
-  ```bash
+ 
+ ```bash
      
 Build 'netology / Build' #6, default branch 'master'
 Triggered 2023-05-13 13:39:20 by 'admin'
@@ -1214,7 +1214,7 @@ TeamCity server version is 2022.10.3 (build 117072), server timezone: GMT (UTC)
 
  ```
  
-      </details>
+   </details>
    
 9. Мигрируйте `build configuration` в репозиторий
 10. Создайте отдельную ветку `feature/add_reply` в репозитории
