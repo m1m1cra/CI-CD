@@ -918,6 +918,7 @@ TeamCity server version is 2022.10.3 (build 117072), server timezone: GMT (UTC)
   </details>
   
 5. Поменяйте условия сборки: если сборка по ветке `master`, то должен происходит `mvn clean deploy`, иначе `mvn clean test`
+![screen](tmp/goals.png)
 6. Для deploy будет необходимо загрузить [settings.xml](./teamcity/settings.xml) в набор конфигураций maven у teamcity, предварительно записав туда креды для подключения к nexus
 7. В pom.xml необходимо поменять ссылки на репозиторий и nexus
 8. Запустите сборку по master, убедитесь что всё прошло успешно, артефакт появился в nexus
