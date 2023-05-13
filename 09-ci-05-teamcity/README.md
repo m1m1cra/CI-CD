@@ -18,7 +18,7 @@
 
 <details>
    
-<summary>Лог выполнения</summary>
+<summary>Build log</summary>
   
   ```bash
   Build 'netology / Build' #1, default branch 'master'
