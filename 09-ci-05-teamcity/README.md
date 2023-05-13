@@ -923,6 +923,9 @@ TeamCity server version is 2022.10.3 (build 117072), server timezone: GMT (UTC)
 7. В pom.xml необходимо поменять ссылки на репозиторий и nexus
 8. Запустите сборку по master, убедитесь что всё прошло успешно, артефакт появился в nexus
 
+   
+![screen](tmp/releases.png)   
+   
 <details>
    
 <summary>Build log</summary>
