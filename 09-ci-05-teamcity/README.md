@@ -1305,6 +1305,9 @@ public class WelcomerTest {
 18. Проведите повторную сборку мастера, убедитесь, что сбора прошла успешно и артефакты собраны
 ![screen](tmp/art2.png)   
 19. Проверьте, что конфигурация в репозитории содержит все настройки конфигурации из teamcity
+	
+https://github.com/m1m1cra/example-teamcity/tree/master/.teamcity/Netology	
+	
 20. В ответ предоставьте ссылку на репозиторий
 
 ---
