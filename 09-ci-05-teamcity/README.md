@@ -1224,10 +1224,11 @@ TeamCity server version is 2022.10.3 (build 117072), server timezone: GMT (UTC)
 ![screen](tmp/sync.png)  
 10. Создайте отдельную ветку `feature/add_reply` в репозитории
 ```bash
-  root@bhdevops:/home/avdeevan/teamcity/example-teamcity# git branch -r
+root@bhdevops:/home/avdeevan/teamcity/example-teamcity# git branch -r
   origin/HEAD -> origin/master
   origin/feature/add_reply
-  origin/master****
+  origin/master
+root@bhdevops:/home/avdeevan/teamcity/example-teamcity# 
 ```
 11. Напишите новый метод для класса Welcomer: метод должен возвращать произвольную реплику, содержащую слово `hunter`
 12. Дополните тест для нового метода на поиск слова `hunter` в новой реплике
