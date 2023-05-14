@@ -1231,6 +1231,27 @@ root@bhdevops:/home/avdeevan/teamcity/example-teamcity# git branch -r
 root@bhdevops:/home/avdeevan/teamcity/example-teamcity# 
 ```
 11. Напишите новый метод для класса Welcomer: метод должен возвращать произвольную реплику, содержащую слово `hunter`
+```java
+   package plaindoll;
+
+public class Welcomer{
+	public String sayWelcome() {
+		return "Welcome home, good hunter. What is it your desire?";
+	}
+	public String sayFarewell() {
+		return "Farewell, good hunter. May you find your worth in waking world.";
+	}
+	public String sayNeedGold(){
+		return "Not enough gold";
+	}
+	public String saySome(){
+		return "something in the way";
+	}
+	public String sayGoodEveningHunter(){
+		return "Good evening, hunter!";
+	}
+}
+```
 12. Дополните тест для нового метода на поиск слова `hunter` в новой реплике
 13. Сделайте push всех изменений в новую ветку в репозиторий
 14. Убедитесь что сборка самостоятельно запустилась, тесты прошли успешно
