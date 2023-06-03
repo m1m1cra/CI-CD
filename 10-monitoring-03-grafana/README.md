@@ -77,6 +77,12 @@ node_filesystem_avail_bytes{mountpoint="/", job="nodeexporter"}
 
 В решении задания - приведите листинг этого файла.
 
+#
+
+### Ответ
+
+![Листинг файла](https://github.com/m1m1cra/CI-CD/blob/MNT-video/10-monitoring-03-grafana/help/dash.json)
+
 ---
 
 ### Как оформить ДЗ?
