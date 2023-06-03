@@ -127,7 +127,7 @@ P.S.: если при запуске некоторые контейнеры б�
 (disk->host->telegraf_container_id) из веб-интерфейса.
 
 ![screen1](tmp/influx_mem.png)
-![screen1](tmp/influx_mem.disk)
+![screen1](tmp/influx_disk.png)
 
 #
 9. Изучите список [telegraf inputs](https://github.com/influxdata/telegraf/tree/master/plugins/inputs). 
