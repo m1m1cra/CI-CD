@@ -53,6 +53,8 @@ node_memory_MemAvailable_bytes{job="nodeexporter"}
 node_filesystem_avail_bytes{mountpoint="/", job="nodeexporter"}
 ```
 
+![screen](help/dash.png)
+
 #
 
 ## Задание 3
