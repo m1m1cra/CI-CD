@@ -62,6 +62,12 @@ node_filesystem_avail_bytes{mountpoint="/", job="nodeexporter"}
 
 Для решения ДЗ - приведите скриншот вашей итоговой Dashboard.
 
+### Ответ
+
+![screen](help/alerts.png)
+
+#
+
 ## Задание 4
 Сохраните ваш Dashboard.
 
