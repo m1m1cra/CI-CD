@@ -1,13 +1,17 @@
-# Домашнее задание к занятию "11.Teamcity"
+# Домашнее задание по теме «Введение в SQL и установка ПО»
 
 ## Подготовка к выполнению
 
-1. В Ya.Cloud создайте новый инстанс (4CPU4RAM) на основе образа `jetbrains/teamcity-server`
-2. Дождитесь запуска teamcity, выполните первоначальную настройку
-3. Создайте ещё один инстанс(2CPU4RAM) на основе образа `jetbrains/teamcity-agent`. Пропишите к нему переменную окружения `SERVER_URL: "http://<teamcity_url>:8111"`
-4. Авторизуйте агент
-5. Сделайте fork [репозитория](https://github.com/aragastmatb/example-teamcity)
-6. Создать VM (2CPU4RAM) и запустить [playbook](./infrastructure)
+
+
+1. Задание 1. Создайте новое соединение в DBeaver и подключите облачную базу данных с учебной базой данных dvd-rental согласно инструкции. Сделайте скриншот результата.
+![screen](tmp/builds.png)
+2. 
+3. Дождитесь запуска teamcity, выполните первоначальную настройку
+4. Создайте ещё один инстанс(2CPU4RAM) на основе образа `jetbrains/teamcity-agent`. Пропишите к нему переменную окружения `SERVER_URL: "http://<teamcity_url>:8111"`
+5. Авторизуйте агент
+6. Сделайте fork [репозитория](https://github.com/aragastmatb/example-teamcity)
+7. Создать VM (2CPU4RAM) и запустить [playbook](./infrastructure)
 
 ## Основная часть
 
